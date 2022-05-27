@@ -1,3 +1,4 @@
+from asyncore import dispatcher_with_send
 from splinter import Browser
 from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
@@ -6,6 +7,7 @@ import pandas as pd
 
 
 def scrape():
+    dict_data = []
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=False)
     url = "https://redplanetscience.com/"
@@ -14,8 +16,14 @@ def scrape():
     soup = BeautifulSoup(html, 'html.parser')   
 
     result = soup.find('div', class_='col-md-12')
-    titles = result.find_all('div', class_='content_title')
-    paragraphs = result.find_all('div', class_='article_teaser_body')
+
+    titles = soup.find_all('div', class_='content_title')
+    paragraphs = soup.find_all('div', class_='article_teaser_body')
+    titles_para = zip(titles, paragraphs)
+    for x, y in titles_para:    
+        print({f"Title: {x.text}, Paragraph: {y.text}"})
+        # dict_data["Title"] = x.text
+        # dict_data["Paragrah"] = y.text
     browser.quit()
 
 
@@ -28,6 +36,7 @@ def scrape():
     img_result = soup.find('div', class_='floating_text_area')
     img_url = img_result.find('a')['href']
     img_complete_url = [space_image_url + img_url]  
+    # dict_data["img_url"] = img_result.find('a')['href'].get_text()
     browser.quit()
 
     mars_table_url = "https://galaxyfacts-mars.com/"
@@ -37,6 +46,7 @@ def scrape():
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
     table_html = soup.find('table', class_='table table-striped')
+    # dict_data["table"] = soup.find('table', class_='table table-striped').get_text()
     browser.quit()
 
     executable_path = {'executable_path': ChromeDriverManager().install()}
@@ -67,4 +77,10 @@ def scrape():
         mars_dict[f"img_url : {link}"] = image
     
     mars_img_link.append(mars_dict)
+    # dict_data["mars_titles_imgs"] = mars_img_link
     browser.quit()
+
+
+    
+    # return dict_data
+
