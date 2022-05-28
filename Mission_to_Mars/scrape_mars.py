@@ -80,7 +80,7 @@ def scrape():
     mars_data['news_p'] = news_p
     mars_data['img_complete_url'] = img_complete_url
     mars_data['table_html'] = table_html
-    mars_data['links'] = links
+    # mars_data['links'] = links
 
     return mars_data
 

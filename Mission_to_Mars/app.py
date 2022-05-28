@@ -9,6 +9,7 @@ mongo = PyMongo(app)
 
 mars_collection = mongo.db.mars
 
+
 @app.route("/")
 def index():
    
