@@ -7,7 +7,7 @@ import pandas as pd
 
 
 def scrape():
-    dict_data = []
+    
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=False)
     url = "https://redplanetscience.com/"
@@ -59,9 +59,9 @@ def scrape():
     for title in titles:
         browser.links.find_by_partial_text(title).click()
         browser.links.find_by_text('Open').click()
-    
+        
         html = browser.html
-        soup = BeautifulSoup(html, 'lxml')
+        soup = BeautifulSoup(html, 'html.parser')
 
         image_link = astrology_url + soup.find('img', class_="wide-image")['src']
         title_img_dict = {}
@@ -71,7 +71,7 @@ def scrape():
         links.append(title_img_dict)
         browser.links.find_by_text('Close').click()
         browser.links.find_by_partial_text('Back').click()
-        
+
     print(links)
     browser.quit()
 
