@@ -14,16 +14,8 @@ def scrape():
     mars_webpage = browser.visit(url)
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')   
-
-    result = soup.find('div', class_='col-md-12')
-
-    titles = soup.find_all('div', class_='content_title')
-    paragraphs = soup.find_all('div', class_='article_teaser_body')
-    titles_para = zip(titles, paragraphs)
-    for x, y in titles_para:    
-        print({f"Title: {x.text}, Paragraph: {y.text}"})
-        # dict_data["Title"] = x.text
-        # dict_data["Paragrah"] = y.text
+    news_title = soup.find('div', class_='content_title').text
+    news_p = soup.find('div', class_='article_teaser_body').text
     browser.quit()
 
 
@@ -36,7 +28,7 @@ def scrape():
     img_result = soup.find('div', class_='floating_text_area')
     img_url = img_result.find('a')['href']
     img_complete_url = [space_image_url + img_url]  
-    # dict_data["img_url"] = img_result.find('a')['href'].get_text()
+    print(img_complete_url)
     browser.quit()
 
     mars_table_url = "https://galaxyfacts-mars.com/"
@@ -46,41 +38,44 @@ def scrape():
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
     table_html = soup.find('table', class_='table table-striped')
-    # dict_data["table"] = soup.find('table', class_='table table-striped').get_text()
+    print(table_html)
     browser.quit()
 
+    astrology_url = "https://marshemispheres.com/"
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=False)
-    astrology_url = "https://marshemispheres.com/"
     browser.visit(astrology_url)
     html = browser.html
-    soup = BeautifulSoup(html, 'html.parser')
+    soup = BeautifulSoup(html, 'lxml')
     img_link_html = soup.find('div', class_='collapsible results')
-    results = img_link_html.find_all('div', class_='item')
-    mars_img_link = []
-    mars_dict = {}
+    anchor = img_link_html.find_all('h3')
+    titles = []
+    links = []
 
-    for link in range(len(results)):
-        title = results[link].find('div', class_='description')
-        title = results[link].find('h3').text
+    for h3 in range(0,4):
+        descriptions = anchor[h3].text
+        titles.append(descriptions)
+
+    for title in titles:
+        browser.links.find_by_partial_text(title).click()
+        browser.links.find_by_text('Open').click()
     
-        mars_url_list = results[link].a['href']
-        browser.visit(astrology_url + mars_url_list)
         html = browser.html
-        soup = BeautifulSoup(html, 'html.parser')
-    
-        image = soup.find('div', class_='container')
-        image = image.find('div', class_='wide-image-wrapper')
-        image = image.find('img', class_='wide-image')
-        image = astrology_url + image['src']
-        mars_dict[f"title: {link}"] = title
-        mars_dict[f"img_url : {link}"] = image
-    
-    mars_img_link.append(mars_dict)
-    # dict_data["mars_titles_imgs"] = mars_img_link
+        soup = BeautifulSoup(html, 'lxml')
+
+        image_link = astrology_url + soup.find('img', class_="wide-image")['src']
+        title_img_dict = {}
+        title_img_dict['title'] = title
+        title_img_dict['img_url'] = img_url
+        
+        links.append(title_img_dict)
+        browser.links.find_by_text('Close').click()
+        browser.links.find_by_partial_text('Back').click()
+        
+    print(links)
     browser.quit()
 
 
     
-    # return dict_data
+    
 
