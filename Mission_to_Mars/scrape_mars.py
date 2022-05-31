@@ -7,9 +7,10 @@ import pandas as pd
 import time
 
 
+mars_data = {}
+
 def scrape():
 
-    mars_data = {}
     
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=False)
