@@ -4,6 +4,7 @@ from bs4 import BeautifulSoup
 from webdriver_manager.chrome import ChromeDriverManager
 import requests
 import pandas as pd
+import time
 
 
 def scrape():
@@ -45,6 +46,7 @@ def scrape():
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=False)
     browser.visit(astrology_url)
+    time.sleep(5)
     html = browser.html
     soup = BeautifulSoup(html, 'lxml')
     img_link_html = soup.find('div', class_='collapsible results')
