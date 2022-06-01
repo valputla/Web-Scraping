@@ -20,9 +20,9 @@ def index():
 @app.route("/scrape")
 def scraper():
    
-    mars_scraped_data = scrape_mars.scrape()
+    mars_data = scrape_mars.scrape()
     
-    mars_collection.update_one({}, {"$set": mars_scraped_data}, upsert=True)
+    mars_collection.update_one({}, {"$set": mars_data}, upsert=True)
     
     return redirect("/", code=302)
 

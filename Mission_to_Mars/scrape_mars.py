@@ -70,6 +70,7 @@ def scrape():
     for title in titles:
         browser.links.find_by_partial_text(title).click()
         browser.links.find_by_text('Open').click()
+        time.sleep(3)
         html = browser.html
         soup = BeautifulSoup(html, 'html.parser')
         image_link = astrology_url + soup.find('img', class_="wide-image")['src']
