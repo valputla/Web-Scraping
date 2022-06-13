@@ -6,8 +6,6 @@ Building a web application that scrapes various websites for data related to the
 ## Table of Contents
 * [General Info](#general-information)
 * [Technologies Used](#technologies-used)
-* [Screenshots](#screenshots)
-* [Setup](#setup)
 * [Data Source](#data-source)
 
 
@@ -21,12 +19,6 @@ Data, tables, links, and images scraped from multiple websites of information pe
 - Python
 - BeautifulSoup
 - pymongo
-
-## Screenshots
-
-
-## Setup
-
 
 ## Data Source
 https://redplanetscience.com/
