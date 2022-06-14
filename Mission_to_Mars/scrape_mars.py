@@ -16,6 +16,7 @@ def scrape():
     browser = Browser('chrome', **executable_path, headless=False)
     url = "https://redplanetscience.com/"
     mars_webpage = browser.visit(url)
+    time.sleep(3)
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')   
     news_title = soup.find('div', class_='content_title').text
@@ -27,6 +28,7 @@ def scrape():
     executable_path = {'executable_path': ChromeDriverManager().install()}
     browser = Browser('chrome', **executable_path, headless=False)
     space_image_webpage = browser.visit(space_image_url)
+    time.sleep(3)
     html = browser.html
     soup = BeautifulSoup(html, 'html.parser')
     img_result = soup.find('div', class_='floating_text_area')
@@ -70,13 +72,14 @@ def scrape():
     for title in titles:
         browser.links.find_by_partial_text(title).click()
         browser.links.find_by_text('Open').click()
-        time.sleep(3)
+        time.sleep(5)
         html = browser.html
         soup = BeautifulSoup(html, 'html.parser')
-        image_link = astrology_url + soup.find('img', class_="wide-image")['src']
+        partial = soup.find('img', class_="wide-image")['src']
+        image_link = astrology_url + partial
         title_img_dict = {}
         title_img_dict['title'] = title
-        title_img_dict['img_url'] = img_url
+        title_img_dict['img_url'] = image_link
         
         links.append(title_img_dict)
         browser.links.find_by_text('Close').click()
