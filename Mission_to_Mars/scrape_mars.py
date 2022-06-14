@@ -34,7 +34,7 @@ def scrape():
     soup = BeautifulSoup(html, 'html.parser')
     img_result = soup.find('div', class_='floating_text_area')
     img_url = img_result.find('a')['href']
-    img_complete_url = [space_image_url + img_url]  
+    img_complete_url = space_image_url + img_url  
     mars_data['img_complete_url'] = img_complete_url
     browser.quit()
 
